@@ -1,5 +1,9 @@
-import { Module, RequestMethod } from '@nestjs/common';
-import { MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  RequestMethod,
+  NestModule,
+  MiddlewareConsumer,
+} from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
