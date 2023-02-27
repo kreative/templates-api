@@ -1,3 +1,5 @@
+# Welcome to Kreative Templates API Documentation
+
 * [Home](https://github.com/kreative/templates-api/wiki/Home)
 * [API Reference](https://github.com/kreative/templates-api/wiki/API-Reference)
     * [Templates](https://github.com/kreative/templates-api/wiki/Templates)
