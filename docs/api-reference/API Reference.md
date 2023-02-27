@@ -21,10 +21,12 @@ Every request made to Kreative Templates API that requires authentication must s
 Every user with a Kreative account has a set of permissions that allow them to access certain parts of the API. The API uses the Kreative ID Key to determine the permissions of the user making the request. The API will return a 401 Unauthorized error if the user does not have permission to access the requested resource. Currently, we have a basic permissions implementation setup for Kreative ID. Eventually, we will have a role-based permissions system that will allow us to give users more granular permissions based on predefined roles.
 
 ### Permissions
+
 - `KREATIVE_SUPER_ADMIN`: this is a specific permission that is only granted to employees of Kreative. This permission allows the user to access all resources in the API, but it is specfically for Kreative employees to manage backend data through a dashboard.
 - `KREATIVE_TEMPLATES_USER`: this is the basic permission that is granted to all users. This permission allows the user to access all resources that require a basic permission and to access data pertaining to their own account.
 
 ## Explore all entities
+
 - [Templates](https://github.com/kreative/templates-api/wiki/Templates)
 - [Authors](https://github.com/kreative/templates-api/wiki/Authors)
 - [Categories](https://github.com/kreative/templates-api/wiki/Categories)
