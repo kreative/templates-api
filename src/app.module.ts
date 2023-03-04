@@ -11,6 +11,7 @@ import * as Sentry from '@sentry/node';
 import '@sentry/tracing';
 
 import { SentryModule } from './sentry/sentry.module';
+import { PluginsModule } from './plugins/plugins.module';
 
 @Module({
   imports: [
@@ -22,9 +23,11 @@ import { SentryModule } from './sentry/sentry.module';
       tracesSampleRate: 1.0,
       debug: true,
     }),
+    PrismaModule,
+    PluginsModule,
   ],
   controllers: [AppController],
-  providers: [PrismaModule],
+  providers: [],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer): void {
