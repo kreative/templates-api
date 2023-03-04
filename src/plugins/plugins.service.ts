@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/src/prisma/prisma.service';
-import logger from '@/utils/logger';
 import { IResponse } from '@/types/IResponse';
 import { Plugin } from '@prisma/client';
+import { handlePrismaErrors } from '@/utils/handlePrismaErrors';
+import logger from '@/utils/logger';
 
 @Injectable()
 export class PluginsService {
@@ -16,11 +17,7 @@ export class PluginsService {
       plugins = await this.prisma.plugin.findMany();
     } catch (error) {
       logger.error('PluginsService.findAll() error with prisma', error);
-      return {
-        statusCode: 500,
-        message: 'Error fetching plugins',
-        data: null,
-      } as IResponse;
+      handlePrismaErrors(error);
     }
 
     const payload: IResponse = {

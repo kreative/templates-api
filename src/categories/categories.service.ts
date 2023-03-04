@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { IResponse } from '@/types/IResponse';
 import { Category } from '@prisma/client';
+import { handlePrismaErrors } from '@/utils/handlePrismaErrors';
 import logger from '@/utils/logger';
 
 @Injectable()
@@ -16,11 +17,7 @@ export class CategoriesService {
       categories = await this.prisma.category.findMany();
     } catch (error) {
       logger.error('CategoriesService.findAll() error with prisma', error);
-      return {
-        statusCode: 500,
-        message: 'Error fetching categories',
-        data: null,
-      } as IResponse;
+      handlePrismaErrors(error);
     }
 
     const payload: IResponse = {
