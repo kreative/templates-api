@@ -8,8 +8,8 @@ export class PluginsController {
 
   @Get('')
   @HttpCode(HttpStatus.OK)
-  findAll() {
+  async findAll() {
     logger.info('GET /plugins initiated');
-    return this.pluginsService.findAll();
+    return await this.pluginsService.findAll();
   }
 }
