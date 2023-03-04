@@ -11,9 +11,86 @@ datasource db {
 }
 
 model Template {
-  id        Int       @id @default(autoincrement())
+  id            String                 @id @default(uuid())
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+  name          String
+  description   String
+  slug          String
+  tagline       String
+  application   String                 @default("obsidian")
+  thumbnailUrl  String
+  galleryImages String[]
+  price         Decimal
+  fileUrl       String
+  downloadUrl   String
+  authorFk      Author                 @relation(fields: [author], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  author        String
+  categories    CategoriesOnTemplate[]
+  plugins       PluginsOnTemplate[]
+  downloads     Download[]
+}
+
+model Author {
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  displayName String
+  bio         String
+  avatarUrl   String
+  templates   Template[]
+}
+
+model Category {
+  id          String                 @id @default(uuid())
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+  name        String
+  description String
+  templates   CategoriesOnTemplate[]
+}
+
+model CategoriesOnTemplate {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  templateFk Template @relation(fields: [templateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  templateId String
+  categoryFk Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId String
+
+  @@unique([templateId, categoryId])
+}
+
+model Plugin {
+  id        String              @id @default(uuid())
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
   name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  templates PluginsOnTemplate[]
+}
+
+model PluginsOnTemplate {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  templateFk Template @relation(fields: [templateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  templateId String
+  pluginFk   Plugin   @relation(fields: [pluginId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pluginId   String
+
+  @@unique([templateId, pluginId])
+}
+
+model Download {
+  id           String   @id @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  templateFk   Template @relation(fields: [templateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  templateId   String
+  firstName    String
+  lastName     String
+  emailAddress String
+  ipAddress    String
+  userAgent    String
 }
