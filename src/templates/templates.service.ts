@@ -48,7 +48,7 @@ export class TemplatesService {
         include: {
           author: true,
           category: true,
-        }
+        },
       });
     } catch (error) {
       logger.error(error);

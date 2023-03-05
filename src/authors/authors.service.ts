@@ -91,7 +91,7 @@ export class AuthorsService {
         data: dto,
       });
     } catch (error) {
-      logger.error('AuthorsService.update() error with prisma', error);
+      logger.warn('AuthorsService.update() error with prisma', error);
       const message =
         error.code == 'P2025' ? 'No author found to update' : null;
       handlePrismaErrors(error, message);
@@ -118,7 +118,7 @@ export class AuthorsService {
         },
       });
     } catch (error) {
-      logger.error('AuthorsService.delete() error with prisma', error);
+      logger.warn('AuthorsService.delete() error with prisma', error);
       const message =
         error.code == 'P2025' ? 'No author found to delete' : null;
       handlePrismaErrors(error, message);
