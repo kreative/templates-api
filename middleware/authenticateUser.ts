@@ -61,7 +61,7 @@ export class AuthenticateUserMiddleware implements NestMiddleware {
         res.status(404).send({
           statusCode: 404,
           message: 'missing account or keychain',
-        }); 
+        });
       })
       .json((response) => {
         // verifies that the user has the neccessary permissions
