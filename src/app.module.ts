@@ -12,10 +12,13 @@ import '@sentry/tracing';
 
 import { AuthenticateUserMiddleware } from '@/middleware/authenticateUser';
 import { SentryModule } from './sentry/sentry.module';
-import { PluginsModule } from './plugins/plugins.module';
 import { CategoriesModule } from './categories/categories.module';
 import { AuthorsModule } from './authors/authors.module';
 import { AuthorsController } from './authors/authors.controller';
+import { TemplatesModule } from './templates/templates.module';
+import { TemplatesController } from './templates/templates.controller';
+import { DownloadsModule } from './downloads/downloads.module';
+import { DownloadsController } from './downloads/downloads.controller';
 
 @Module({
   imports: [
@@ -28,9 +31,10 @@ import { AuthorsController } from './authors/authors.controller';
       debug: true,
     }),
     PrismaModule,
-    PluginsModule,
     CategoriesModule,
     AuthorsModule,
+    TemplatesModule,
+    DownloadsModule,
   ],
   controllers: [AppController],
   providers: [],
@@ -56,5 +60,27 @@ export class AppModule implements NestModule {
         },
       )
       .forRoutes(AuthorsController);
+
+    consumer
+      .apply(AuthenticateUserMiddleware)
+      .exclude(
+        {
+          path: 'templates',
+          method: RequestMethod.GET,
+        },
+        {
+          path: 'templates/:id',
+          method: RequestMethod.GET,
+        },
+      )
+      .forRoutes(TemplatesController);
+
+    consumer
+      .apply(AuthenticateUserMiddleware)
+      .exclude({
+        path: 'downloads',
+        method: RequestMethod.POST,
+      })
+      .forRoutes(DownloadsController);
   }
 }
