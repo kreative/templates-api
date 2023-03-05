@@ -53,14 +53,15 @@ model Category {
 }
 
 model Download {
-  id           String   @id @default(uuid())
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-  template     Template @relation(fields: [templateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  templateId   String
-  firstName    String
-  lastName     String
-  emailAddress String
-  ipAddress    String
-  userAgent    String
+  id             String   @id @default(uuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  template       Template @relation(fields: [templateId], references: [id], onDelete: NoAction, onUpdate: Cascade)
+  templateId     String
+  firstName      String
+  lastName       String
+  emailAddress   String
+  ipAddress      String
+  userAgent      String
+  sendNewsletter Boolean  @default(true)
 }
