@@ -5,6 +5,7 @@ import {
   HttpCode,
   HttpStatus,
   Body,
+  Req,
 } from '@nestjs/common';
 import { DownloadsService } from './downloads.service';
 import { DownloadDto } from './downloads.dto';
@@ -16,9 +17,9 @@ export class DownloadsController {
 
   @Get('')
   @HttpCode(HttpStatus.OK)
-  async findAll() {
+  async findAll(@Req() req) {
     logger.info('GET /downloads initiated');
-    return this.downloadsService.findAll();
+    return this.downloadsService.findAll(req);
   }
 
   @Post('')
