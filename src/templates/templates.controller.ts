@@ -8,6 +8,7 @@ import {
   Put,
   Delete,
   Body,
+  Req,
 } from '@nestjs/common';
 import { TemplateDto } from './templates.dto';
 import { TemplatesService } from './templates.service';
@@ -19,9 +20,9 @@ export class TemplatesController {
 
   @Get('')
   @HttpCode(HttpStatus.OK)
-  async findAll() {
+  async findAll(@Req() req) {
     logger.info('GET /templates initiated');
-    return this.templatesService.findAll();
+    return this.templatesService.findAll(req);
   }
 
   @Get(':id')

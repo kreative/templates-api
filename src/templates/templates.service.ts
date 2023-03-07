@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Req } from '@nestjs/common';
 import { Template } from '@prisma/client';
 import { PrismaService } from '@/src/prisma/prisma.service';
 import { TemplateDto } from './templates.dto';
@@ -10,17 +10,28 @@ import logger from '@/utils/logger';
 export class TemplatesService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<IResponse> {
+  async findAll(@Req() req): Promise<IResponse> {
     logger.info('TemplatesService.findAll() initiated');
     let templates: Template[];
+    let total: number;
+
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
 
     try {
+      // gets a list of templates based on pagination limits
+      // adds the data for the author and for the category as well
       templates = await this.prisma.template.findMany({
+        take: limit,
+        skip: (page - 1) * limit,
         include: {
           author: true,
           category: true,
         },
       });
+
+      // gets the total amount of templates available
+      total = await this.prisma.template.count();
     } catch (error) {
       logger.error(error);
       handlePrismaErrors(error);
@@ -29,7 +40,7 @@ export class TemplatesService {
     const payload: IResponse = {
       statusCode: 200,
       message: 'Templates fetched successfully',
-      data: templates,
+      data: { total, templates },
     };
 
     logger.debug('TemplatesService.findAll() succeeded', payload);
