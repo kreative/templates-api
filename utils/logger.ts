@@ -11,7 +11,7 @@ const logger = createLogger({
   ),
   transports: [new transports.Console()],
   defaultMeta: {
-    service: 'KreativeIdApi',
+    service: 'KreativeTemplatesApi',
   },
 });
 
