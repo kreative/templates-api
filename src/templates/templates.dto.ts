@@ -57,5 +57,5 @@ export class TemplateDto {
 
   @IsString()
   @IsNotEmpty()
-  categoryId: string;
+  categoryName: string;
 }
