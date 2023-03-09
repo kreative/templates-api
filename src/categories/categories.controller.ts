@@ -1,6 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
-import logger from '@/utils/logger';
+import logger from '../../utils/logger';
 
 @Controller('categories')
 export class CategoriesController {

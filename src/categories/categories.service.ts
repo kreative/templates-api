@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { IResponse } from '@/types/IResponse';
+import { IResponse } from '../../types/IResponse';
 import { Category } from '@prisma/client';
-import { handlePrismaErrors } from '@/utils/handlePrismaErrors';
-import logger from '@/utils/logger';
+import { handlePrismaErrors } from '../../utils/handlePrismaErrors';
+import logger from '../../utils/logger';
 
 @Injectable()
 export class CategoriesService {

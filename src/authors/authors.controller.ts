@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AuthorsService } from './authors.service';
 import { AuthorDto } from './authors.dto';
-import logger from '@/utils/logger';
+import logger from '../../utils/logger';
 
 @Controller('authors')
 export class AuthorsController {

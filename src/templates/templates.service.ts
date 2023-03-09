@@ -1,10 +1,10 @@
 import { Injectable, Req } from '@nestjs/common';
 import { Template } from '@prisma/client';
-import { PrismaService } from '@/src/prisma/prisma.service';
+import { PrismaService } from '../../src/prisma/prisma.service';
 import { TemplateDto } from './templates.dto';
-import { IResponse } from '@/types/IResponse';
-import { handlePrismaErrors } from '@/utils/handlePrismaErrors';
-import logger from '@/utils/logger';
+import { IResponse } from '../../types/IResponse';
+import { handlePrismaErrors } from '../../utils/handlePrismaErrors';
+import logger from '../../utils/logger';
 
 @Injectable()
 export class TemplatesService {

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { DownloadsService } from './downloads.service';
 import { DownloadDto } from './downloads.dto';
-import logger from '@/utils/logger';
+import logger from '../../utils/logger';
 
 @Controller('downloads')
 export class DownloadsController {

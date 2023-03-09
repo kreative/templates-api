@@ -1,10 +1,10 @@
 import { Injectable, Req } from '@nestjs/common';
-import { PrismaService } from '@/src/prisma/prisma.service';
+import { PrismaService } from '../../src/prisma/prisma.service';
 import { Download } from '@prisma/client';
 import { DownloadDto } from './downloads.dto';
-import { IResponse } from '@/types/IResponse';
-import { handlePrismaErrors } from '@/utils/handlePrismaErrors';
-import logger from '@/utils/logger';
+import { IResponse } from '../../types/IResponse';
+import { handlePrismaErrors } from '../../utils/handlePrismaErrors';
+import logger from '../../utils/logger';
 
 @Injectable()
 export class DownloadsService {

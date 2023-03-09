@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { IResponse } from '@/types/IResponse';
+import { IResponse } from '../../types/IResponse';
 import { Author } from '@prisma/client';
 import { AuthorDto } from './authors.dto';
-import { handlePrismaErrors } from '@/utils/handlePrismaErrors';
-import logger from '@/utils/logger';
+import { handlePrismaErrors } from '../../utils/handlePrismaErrors';
+import logger from '../../utils/logger';
 
 @Injectable()
 export class AuthorsService {

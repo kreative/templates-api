@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { TemplateDto } from './templates.dto';
 import { TemplatesService } from './templates.service';
-import logger from '@/utils/logger';
+import logger from '../../utils/logger';
 
 @Controller('templates')
 export class TemplatesController {
