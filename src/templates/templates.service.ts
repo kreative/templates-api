@@ -76,7 +76,7 @@ export class TemplatesService {
                 name: true,
               },
             },
-          }
+          },
         });
       } else if (selection === 'templates') {
         // gets all the fields for just the templates
