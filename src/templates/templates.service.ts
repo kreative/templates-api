@@ -17,19 +17,34 @@ export class TemplatesService {
 
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     const page = req.query.page ? parseInt(req.query.page) : 1;
+    const category = req.query.category ? req.query.category : undefined;
+    const selection = req.query.selection ? req.query.selection : 'all';
 
     try {
       // gets a list of templates based on pagination limits
       // adds the data for the author and for the category as well
-      templates = await this.prisma.template.findMany({
-        take: limit,
-        skip: (page - 1) * limit,
-        include: {
-          author: true,
-          category: true,
-        },
-      });
-
+      if (selection === 'all') {
+        // gets all fields for templates, authors, and categories
+        templates = await this.prisma.template.findMany({
+          take: limit,
+          skip: (page - 1) * limit,
+          where: {
+            category: {
+              name: category,
+            },
+          },
+          include: {
+            author: true,
+            category: true,
+          },
+        });
+      } else if (selection === 'limited') {
+        // gets templates, authors fields just for index page
+        // gets only the name field for categories
+      } else if (selection === 'templates') {
+        // gets all the fields for just the templates
+        // no author or category data
+      }
       // gets the total amount of templates available
       total = await this.prisma.template.count();
     } catch (error) {

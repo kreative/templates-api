@@ -16,7 +16,7 @@ model Template {
   updatedAt     DateTime   @updatedAt
   name          String
   description   String
-  slug          String
+  slug          String     @unique
   tagline       String
   application   String     @default("obsidian")
   thumbnailUrl  String
