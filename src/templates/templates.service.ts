@@ -1,4 +1,4 @@
-import { Injectable, Req } from '@nestjs/common';
+import { BadRequestException, Injectable, Req } from '@nestjs/common';
 import { Template } from '@prisma/client';
 import { PrismaService } from '../../src/prisma/prisma.service';
 import { TemplateDto } from './templates.dto';
@@ -12,19 +12,26 @@ export class TemplatesService {
 
   async findAll(@Req() req): Promise<IResponse> {
     logger.info('TemplatesService.findAll() initiated');
-    let templates: Template[];
+    let templates: Template[] | any[];
     let total: number;
 
+    const validSelections = ['all', 'limited', 'templates'];
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
     const page = req.query.page ? parseInt(req.query.page) : 1;
     const category = req.query.category ? req.query.category : undefined;
     const selection = req.query.selection ? req.query.selection : 'all';
+
+    if (!validSelections.includes(selection)) {
+      logger.warn('TemplatesService.findAll() invalid selection');
+      throw new BadRequestException('Invalid selection');
+    }
 
     try {
       // gets a list of templates based on pagination limits
       // adds the data for the author and for the category as well
       if (selection === 'all') {
         // gets all fields for templates, authors, and categories
+        logger.debug('TemplatesService.findAll() selection is "all"');
         templates = await this.prisma.template.findMany({
           take: limit,
           skip: (page - 1) * limit,
@@ -41,9 +48,49 @@ export class TemplatesService {
       } else if (selection === 'limited') {
         // gets templates, authors fields just for index page
         // gets only the name field for categories
+        logger.debug('TemplatesService.findAll() selection is "limited"');
+        templates = await this.prisma.template.findMany({
+          take: limit,
+          skip: (page - 1) * limit,
+          where: {
+            category: {
+              name: category,
+            },
+          },
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            slug: true,
+            price: true,
+            thumbnailUrl: true,
+            author: {
+              select: {
+                id: true,
+                displayName: true,
+                avatarUrl: true,
+              },
+            },
+            category: {
+              select: {
+                name: true,
+              },
+            },
+          }
+        });
       } else if (selection === 'templates') {
         // gets all the fields for just the templates
         // no author or category data
+        logger.debug('TemplatesService.findAll() selection is "templates"');
+        templates = await this.prisma.template.findMany({
+          take: limit,
+          skip: (page - 1) * limit,
+          where: {
+            category: {
+              name: category,
+            },
+          },
+        });
       }
       // gets the total amount of templates available
       total = await this.prisma.template.count();
