@@ -7,6 +7,7 @@ import {
 
 import {
   PrismaClientInitializationError,
+  PrismaClientRustPanicError,
   PrismaClientUnknownRequestError,
   PrismaClientValidationError,
 } from '@prisma/client/runtime';
