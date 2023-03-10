@@ -16,8 +16,10 @@ export class TemplatesService {
     let total: number;
 
     const validSelections = ['all', 'limited', 'templates'];
-    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
-    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : undefined;
+    const skip = req.query.page
+      ? (parseInt(req.query.page) - 1) * limit
+      : undefined;
     const category = req.query.category ? req.query.category : undefined;
     const selection = req.query.selection ? req.query.selection : 'all';
 
@@ -34,7 +36,7 @@ export class TemplatesService {
         logger.debug('TemplatesService.findAll() selection is "all"');
         templates = await this.prisma.template.findMany({
           take: limit,
-          skip: (page - 1) * limit,
+          skip,
           where: {
             category: {
               name: category,
@@ -51,7 +53,7 @@ export class TemplatesService {
         logger.debug('TemplatesService.findAll() selection is "limited"');
         templates = await this.prisma.template.findMany({
           take: limit,
-          skip: (page - 1) * limit,
+          skip,
           where: {
             category: {
               name: category,
@@ -84,7 +86,7 @@ export class TemplatesService {
         logger.debug('TemplatesService.findAll() selection is "templates"');
         templates = await this.prisma.template.findMany({
           take: limit,
-          skip: (page - 1) * limit,
+          skip,
           where: {
             category: {
               name: category,
